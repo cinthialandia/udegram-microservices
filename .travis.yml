@@ -1,0 +1,16 @@
+# Build
+- docker-compose -f docker-compose-build.yaml build --parallel
+
+# Tagging
+- docker tag udagram-api-feed cinthialandia/udagram-api-feed:latest
+- docker tag udagram-api-user cinthialandia/udagram-api-user:latest
+- docker tag udagram-api-frontend cinthialandia/udagram-frontend:latest
+- docker tag reverseproxy cinthialandia/reverseproxy:latest
+
+# Push
+# Assuming DOCKER_PASSWORD and DOCKER_USERNAME are set in the Travis repository settings
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+- docker push cinthialandia/udagram-api-feed:latest
+- docker push cinthialandia/udagram-api-user:latest
+- docker push cinthialandia/udagram-frontend:latest
+- docker push cinthialandia/reverseproxy:latest
