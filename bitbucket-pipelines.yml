@@ -2,29 +2,68 @@ image: alpine:3.14
 
 definitions:
   steps:
-    - step: &docker-release
-        name: Docker image release
+    - step: &release-udagram-api-feed
+        name: Release udagram-api-feed
+        caches:
+          - docker
         script:
             # Build
             - docker build -t udagram-api-feed ./udagram-api-feed
-            - docker build -t udagram-api-user ./udagram-api-user
-            - docker build -t udagram-frontend ./udagram-frontend
-            - docker build -t reverseproxy ./reverseproxy
             # Tagging
             - docker tag udagram-api-feed cinthialandia/udagram-api-feed:latest
+             # Push
+            - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
+            - docker push cinthialandia/udagram-api-feed:latest
+        services:
+            - docker
+    - step: &release-udagram-api-user
+        name: Release udagram-api-user
+        caches:
+          - docker
+        script:
+            # Build
+            - docker build -t udagram-api-user ./udagram-api-user
+            # Tagging
             - docker tag udagram-api-user cinthialandia/udagram-api-user:latest
-            - docker tag udagram-api-frontend cinthialandia/udagram-frontend:latest
+             # Push
+            - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
+            - docker push cinthialandia/udagram-api-user:latest
+        services:
+            - docker
+    - step: &release-udagram-frontend
+        name: Release udagram-frontend
+        caches:
+          - docker
+        script:
+            # Build
+            - docker build -t udagram-frontend ./udagram-frontend
+            # Tagging
+            - docker tag udagram-frontend cinthialandia/udagram-frontend:latest
+             # Push
+            - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
+            - docker push cinthialandia/udagram-frontend:latest
+        services:
+            - docker
+    - step: &release-reverseproxy
+        name: Release reverseproxy
+        caches:
+          - docker
+        script:
+            # Build
+            - docker build -t reverseproxy ./udagram-reverseproxy
+            # Tagging
             - docker tag reverseproxy cinthialandia/reverseproxy:latest
              # Push
             # Assuming DOCKER_PASSWORD and DOCKER_USERNAME are set in the Travis repository settings
             - echo $DOCKER_PASSWORD | docker login -u=$DOCKER_USERNAME --password-stdin
-            - docker push cinthialandia/udagram-api-feed:latest
-            - docker push cinthialandia/udagram-api-user:latest
-            - docker push cinthialandia/udagram-frontend:latest
             - docker push cinthialandia/reverseproxy:latest
         services:
             - docker
 
 pipelines:
   default:
-    - step: *docker-release
+      - parallel:
+        - step: *release-udagram-api-feed
+        - step: *release-udagram-api-user
+        - step: *release-udagram-frontend
+        - step: *release-reverseproxy
