@@ -15,18 +15,19 @@ before_script:
   - echo "no tests"
 
 script:
-  - docker --version # print the version for logging
   # Build
-  - docker-compose -f docker-compose-build.yaml build --parallel
+  - docker build -t udagram-api-feed ./udagram-api-feed
+  - docker build -t udagram-api-user ./udagram-api-user
+  - docker build -t udagram-frontend ./udagram-frontend
+  - docker build -t reverseproxy ./udagram-reverseproxy
   # Tagging
   - docker tag udagram-api-feed cinthialandia/udagram-api-feed:latest
   - docker tag udagram-api-user cinthialandia/udagram-api-user:latest
-  - docker tag udagram-api-frontend cinthialandia/udagram-frontend:latest
+  - docker tag udagram-frontend cinthialandia/udagram-frontend:latest
   - docker tag reverseproxy cinthialandia/reverseproxy:latest
 
 after_success:
   # Push
-  # Assuming DOCKER_PASSWORD and DOCKER_USERNAME are set in the Travis repository settings
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push cinthialandia/udagram-api-feed:latest
   - docker push cinthialandia/udagram-api-user:latest
