@@ -1,0 +1,41 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  frontend
+  labels:
+    app:  frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  frontend
+    spec:
+      containers:
+      - name:  frontend
+        image:  cinthialandia/udagram-frontend:latest
+        ports:
+        - containerPort: 80
+      restartPolicy: Always
+---
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+spec:
+  selector:
+    app: frontend
+  type: LoadBalancer
+  ports:
+  - name: frontend
+    protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30002
+---
+

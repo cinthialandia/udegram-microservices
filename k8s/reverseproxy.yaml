@@ -1,0 +1,41 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  reverseproxy
+  labels:
+    app:  reverseproxy
+spec:
+  selector:
+    matchLabels:
+      app: reverseproxy
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  reverseproxy
+    spec:
+      containers:
+      - name:  reverseproxy
+        image:  cinthialandia/reverseproxy:latest
+        ports:
+        - containerPort:  8080
+      restartPolicy: Always
+---
+# https://kubernetes.io/docs/concepts/services-networking/service/
+apiVersion: v1
+kind: Service
+metadata:
+  name: reverseproxy
+spec:
+  selector:
+    app: reverseproxy
+  type: LoadBalancer
+  ports:
+  - name: reverseproxy
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+    nodePort: 30001
+---
+

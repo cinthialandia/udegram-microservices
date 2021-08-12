@@ -2,10 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const lbHost =
+  "a745db588977942c2beb638d1c7ea442-438602674.us-east-1.elb.amazonaws.com";
+
 export const environment = {
   production: false,
-  appName: 'Udagram',
-  apiHost: 'http://localhost:8080/api/v0'
+  appName: "Udagram",
+  apiHost: `http://${lbHost}:8080/api/v0`,
 };
 
 /*
