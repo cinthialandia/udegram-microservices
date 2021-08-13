@@ -8,5 +8,4 @@ data:
   POSTGRES_DB: postgres
   AWS_BUCKET: udegram-project-microservices-dev
   AWS_REGION: us-east-1
-  AWS_PROFILE: default
   URL: http://a32dd71655eb04f958e8b05da011cb1f-1071970648.us-east-1.elb.amazonaws.com
