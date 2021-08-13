@@ -18,6 +18,13 @@ spec:
       containers:
       - name:  feed-api
         image:  cinthialandia/udagram-api-feed:latest
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"   
         ports:
         - containerPort: 8080
         env:
