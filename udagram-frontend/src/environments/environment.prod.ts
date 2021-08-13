@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 const lbHost =
-  "a745db588977942c2beb638d1c7ea442-438602674.us-east-1.elb.amazonaws.com";
+  "a52e5dd190e864cdeb5404d051a8d431-1783130504.us-east-1.elb.amazonaws.com";
 
 export const environment = {
   production: false,

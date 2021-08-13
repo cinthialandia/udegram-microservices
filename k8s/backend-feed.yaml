@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  backend-feed
+  name:  feed-api
   labels:
-    app:  backend-feed
+    app:  feed-api
 spec:
   selector:
     matchLabels:
-      app: backend-feed
+      app: feed-api
   replicas: 2
   template:
     metadata:
       labels:
-        app:  backend-feed
+        app:  feed-api
     spec:
       containers:
-      - name:  backend-feed
+      - name:  feed-api
         image:  cinthialandia/udagram-api-feed:latest
         ports:
-        - containerPort:  8080
+        - containerPort: 8080
         env:
         - name: POSTGRES_USERNAME
           valueFrom:
@@ -84,11 +84,10 @@ metadata:
   name: backend-feed
 spec:
   selector:
-    app: backend-feed
+    app: feed-api
   type: ClusterIP
   ports:
-  - name: backend-feed
-    protocol: TCP
-    port: 8080
-    targetPort: 8080
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
 ---

@@ -2,24 +2,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  backend-user
+  name:  user-api
   labels:
-    app:  backend-user
+    app:  user-api
 spec:
   selector:
     matchLabels:
-      app: backend-user
+      app: user-api
   replicas: 2
   template:
     metadata:
       labels:
-        app:  backend-user
+        app:  user-api
     spec:
       containers:
-      - name:  backend-user
+      - name:  user-api
         image:  cinthialandia/udagram-api-user:latest
         ports:
-        - containerPort:  8080
+        - containerPort: 8080
         env:
         - name: POSTGRES_USERNAME
           valueFrom:
@@ -84,11 +84,10 @@ metadata:
   name: backend-user
 spec:
   selector:
-    app: backend-user
+    app: user-api
   type: ClusterIP
   ports:
-  - name: backend-user
-    protocol: TCP
-    port: 8080
-    targetPort: 8080
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
 ---
